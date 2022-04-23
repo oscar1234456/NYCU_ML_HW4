@@ -1,21 +1,42 @@
+import pickle
+
 import numpy as np
+
+from EM import config
+from EM.dataprocess.convert import convert_to_bin
 from EM.dataprocess.dataset import DataSet
+import EM.config.constant
 
 # Get data
+from EM.process.init_process import init_Lamb, init_p
+
 a = DataSet("./data/")
-X_train, y_train = a.get_training_data()
+# X_train, y_train = a.get_training_data()
 # X_train:(60000, 784) / y_train: (60000,)
 
+# Temp: Using pickle
+with open('./data/X_train.pickle', 'rb') as f:
+    X_train = pickle.load(f)
+with open('./data/y_train.pickle', 'rb') as f:
+    y_train = pickle.load(f)
+
 # convert data set to bin
+X_train_bin = convert_to_bin(X_train)
 
 # Init
-# L
+# Lamb (10,) -> lambda (chance that the group will be picked) / total 10 groups
+Lamb = init_Lamb()
+# p (10, 784) -> under the 10 groups, the probability of pixel bin == 1 / total 784 pixels
+p = init_p()
 
-# Get W
-# Get L
-# Get P
-# print imagination
-# diff
+for _ in range(config.constant.MAX_Iter):
+    # break, if diff is enough small
+    pass
+    # Get W
+    # Get L
+    # Get P
+    # print imagination
+    # diff
 
 # Count correct
 # matching make convert vector
