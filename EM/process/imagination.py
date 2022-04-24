@@ -16,3 +16,6 @@ def print_image(p):
             print()
         print()
 
+
+def count_confusion():
+    pass

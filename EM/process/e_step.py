@@ -13,7 +13,7 @@ def get_w_posterior(X_train_bin, Lamb, p):
     # Get likelihood P(圖x|z群, theta) = continued product of bernoulli by pixels
     W = np.zeros((60000, 10))
 
-    now_focus_pic_index = trange(0, 60000, dynamic_ncols=True)
+    now_focus_pic_index = trange(0, 60000,  dynamic_ncols=True)
 
     for now_pic_index in now_focus_pic_index:
         now_focus_pic = X_train_bin[now_pic_index]  # now_focus_pic: [1, 784]
@@ -24,7 +24,7 @@ def get_w_posterior(X_train_bin, Lamb, p):
             success = now_focus_pic * now_focus_group_prob
             unsuccess = now_focus_pic_complement * (1 - now_focus_group_prob)
             W[now_pic_index, j] = np.prod(success + unsuccess)
-
+    now_focus_pic_index.close()
     # multiple lambda
     W_step2 = W * (Lamb.reshape(1, -1))
 

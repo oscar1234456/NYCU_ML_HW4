@@ -7,7 +7,11 @@ from EM.dataprocess.convert import convert_to_bin
 from EM.dataprocess.dataset import DataSet
 import EM.config.constant
 
+from tqdm import tqdm, trange
+
 # Get data
+from EM.process.convert import create_group_label_convert
+from EM.process.count_error import count_diff
 from EM.process.e_step import get_w_posterior, get_L, get_p
 from EM.process.imagination import print_image
 from EM.process.init_process import init_Lamb, init_p
@@ -34,23 +38,37 @@ Lamb = init_Lamb()
 # p (10, 784) -> under the 10 groups, the probability of pixel bin == 1 / total 784 pixels
 p = init_p()
 
-for _ in range(config.constant.MAX_Iter):
+# total_iter = trange(0, config.constant.MAX_Iter, dynamic_ncols=True)
+
+for now_iter in range(config.constant.MAX_Iter):
     # break, if diff is enough small
+
+    # TODO: remove pickle W
     # Get W
     # W = get_w_posterior(X_train_bin, Lamb, p)
-    # TODO: remove pickle W
+
     # Get Lamb
+    # total_iter.set_description("get W")
     new_Lamb = get_L(W)
     # Get p
+    # total_iter.set_description("get p")
     new_p = get_p(X_train_bin, W)
     # print imagination
     print_image(new_p)
-    # TODO: diff
+    # diff
+    diff = count_diff(new_Lamb, Lamb, new_p, p)
+    print(f"No. of Iteration: {now_iter+1}, Difference: {diff}")
+    Lamb = new_Lamb
+    p = new_p
 
+# Final W
+# W = get_w_posterior(X_train_bin, Lamb, p)
 
 # TODO: Count correct
 # TODO: matching make convert vector
+predict_group, converter = create_group_label_convert(W, y_train)
 
 # TODO: confusion matrix
+
 
 print("123")

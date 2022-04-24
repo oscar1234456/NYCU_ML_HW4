@@ -4,4 +4,4 @@ TRAIN_Y_FILE_NAME = "train-labels.idx1-ubyte"
 TEST_X_FILE_NAME = "t10k-images.idx3-ubyte"
 TEST_Y_FILE_NAME = "t10k-labels.idx1-ubyte"
 
-MAX_Iter = 20
+MAX_Iter = 3
