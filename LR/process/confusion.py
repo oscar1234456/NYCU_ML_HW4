@@ -35,3 +35,22 @@ def confusion_matrix(phi, w, t):
     print("-----------------------------------------------------------------------------")
 
 
+def split_cluster(phi, w):
+    # phi: (2N, 3)
+    # w: (3, 1)
+    predict = phi @ w  # predict:(2N, 1)
+    np.place(predict, predict <= 0, [0])
+    np.place(predict, predict > 0, [1])
+    class1_cluster = list()
+    class2_cluster = list()
+    for i in range(phi.shape[0]):
+        if predict[i] == 0:
+            class1_cluster.append(phi[i, :2])
+        else:
+            class2_cluster.append(phi[i, :2])
+    class1_cluster = np.array(class1_cluster)
+    class2_cluster = np.array(class2_cluster)
+    return class1_cluster, class2_cluster
+
+
+

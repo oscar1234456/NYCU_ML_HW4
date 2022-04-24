@@ -2,32 +2,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def pretty_plot(test_datapoint_x, test_datapoint_b):
-    fig, (ax1, ax2) = plt.subplots(3, 1)
-    fig.suptitle('Fitting Curve')
-    n = lse_w.shape[0]  # get the degree of the polynomial
-    test_datapoint_x_min = test_datapoint_x.min()
-    test_datapoint_x_max = test_datapoint_x.max()
-    x_space = np.linspace(test_datapoint_x_min-1, test_datapoint_x_max+1) # set x space
-    y = np.zeros(len(x_space))
-    ax1.scatter(test_datapoint_x, test_datapoint_b, c="red")  # plot data-points
+def pretty_plot(phi, class1_cluster_g, class2_cluster_g, class1_cluster_n, class2_cluster_n, N):
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
+    fig.suptitle('Compare pictures')
 
-    for i in range(n):
-        # y0 = w0x0^0 + w1x0^1 + .... + wn-1x0^n-1
-        # y1 = w0x1^0 + w1x1^1 + .... + wn-1x1^n-1
-        # x_space = [x0, x1, x2,.....]
-        y = y + lse_w[i] * np.power(x_space, i)
+    # test_datapoint_x_min = test_datapoint_x.min()
+    # test_datapoint_x_max = test_datapoint_x.max()
+    ax1.set_title("Ground Truth")
+    ax1.scatter(phi[:N, 0], phi[:N, 1], c="red")  # plot data-points
+    ax1.scatter(phi[N:, 0], phi[N:, 1], c="blue")  # plot data-points
 
-    ax1.plot(x_space, y, c="black")  # plot the fitting curve
-    ax1.set_title("LSE")
-    y = np.zeros(len(x_space))
+    ax2.set_title("Gradient Descent")
+    ax2.scatter(class1_cluster_g[:, 0], class1_cluster_g[:, 1], c="red")  # plot data-points
+    ax2.scatter(class2_cluster_g[:, 0], class2_cluster_g[:, 1], c="blue")  # plot data-points
 
-    for i in range(n):
-        y = y + newton_w[i] * np.power(x_space, i)
-
-    ax2.scatter(test_datapoint_x, test_datapoint_b, c="red")
-    ax2.plot(x_space, y, c="black")  # plot the fitting curve
-    ax2.set_title("Newton's method")
-    fig.tight_layout()
+    ax3.set_title("Newton's Method")
+    ax3.scatter(class1_cluster_n[:, 0], class1_cluster_n[:, 1], c="red")  # plot data-points
+    ax3.scatter(class2_cluster_n[:, 0], class2_cluster_n[:, 1], c="blue")  # plot data-points
 
     plt.show()

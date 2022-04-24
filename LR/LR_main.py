@@ -1,6 +1,7 @@
 from LR.data_generate.create import create_phi, create_t
 from LR.data_generate.data_generator import data_generator
-from LR.process.confusion import confusion_matrix
+from LR.pretty_plot import pretty_plot
+from LR.process.confusion import confusion_matrix, split_cluster
 from LR.process.gradient_descent import gradient_descent
 from LR.process.newton import newton_method
 
@@ -51,6 +52,7 @@ print("w:")
 print(w_gradient)
 # TODO: confusion matrix
 confusion_matrix(phi, w_gradient, t)
+class1_cluster_g, class2_cluster_g = split_cluster(phi, w_gradient)
 print("-----------------------")
 
 # Newton-Raphson
@@ -59,5 +61,6 @@ w_newton = newton_method(phi, t)
 print("w:")
 print(w_newton)
 confusion_matrix(phi, w_newton, t)
-
+class1_cluster_n, class2_cluster_n = split_cluster(phi, w_newton)
+pretty_plot(phi, class1_cluster_g, class2_cluster_g, class1_cluster_n, class2_cluster_n, using_config["N"])
 print()
