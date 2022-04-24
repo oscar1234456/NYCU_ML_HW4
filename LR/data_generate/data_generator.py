@@ -1,3 +1,7 @@
+import math
+import random
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy import log as ln
@@ -18,6 +22,11 @@ def random_data_generator(m, s):
     a = np.sqrt(s)
     convert_X = a * X + m
     return convert_X
+    # U = random.random()
+    # V = random.random()
+    # z = math.sqrt(-2 * math.log(U)) * math.cos(2 * math.pi * V)
+    # sample = z * s + m
+    # return sample
 
 
 def data_generator(N, mx, my, vx, vy):

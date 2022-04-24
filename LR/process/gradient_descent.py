@@ -10,9 +10,10 @@ def gradient_descent(phi, t):
     learning_rate = 0.001
     for now_iter in range(MAX_Iter):
         # eps
-        gradient = phi.T @ (1 / (1 - np.exp(-phi @ w)) - t)
+        gradient = phi.T @ (1 / (1 + np.exp(-phi @ w)) - t)
         new_w = w - learning_rate * gradient
         if np.allclose(new_w, w, rtol=eps):
             print("__converge! early stop!__")
             return new_w
         w = new_w
+    return w

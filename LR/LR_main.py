@@ -1,6 +1,8 @@
 from LR.data_generate.create import create_phi, create_t
 from LR.data_generate.data_generator import data_generator
+from LR.process.confusion import confusion_matrix
 from LR.process.gradient_descent import gradient_descent
+from LR.process.newton import newton_method
 
 config1 = {"N": 50, "mx1": 1, "my1": 1, "mx2": 10,
            "my2": 10, "vx1": 2, "vy1": 2, "vx2": 2, "vy2": 2}
@@ -43,10 +45,19 @@ phi = create_phi(class_1, class_2)  # phi: (2*N, dim(w)=3)
 t = create_t(using_config["N"])
 
 # gradient
+print("Gradient descent:")
 w_gradient = gradient_descent(phi, t)
+print("w:")
 print(w_gradient)
+# TODO: confusion matrix
+confusion_matrix(phi, w_gradient, t)
+print("-----------------------")
 
 # Newton-Raphson
+print("Newton's method:")
+w_newton = newton_method(phi, t)
+print("w:")
+print(w_newton)
+confusion_matrix(phi, w_newton, t)
 
-
-print("123")
+print()
