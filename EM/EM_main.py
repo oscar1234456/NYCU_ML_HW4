@@ -13,7 +13,7 @@ from tqdm import tqdm, trange
 from EM.process.convert import create_group_label_convert
 from EM.process.count_error import count_diff
 from EM.process.e_step import get_w_posterior, get_L, get_p
-from EM.process.imagination import print_image
+from EM.process.imagination import print_image, print_label_image, count_confusion, error_rate
 from EM.process.init_process import init_Lamb, init_p
 
 a = DataSet("./data/")
@@ -26,8 +26,8 @@ with open('./data/X_train.pickle', 'rb') as f:
 with open('./data/y_train.pickle', 'rb') as f:
     y_train = pickle.load(f)
 
-with open('./data/W.pickle', 'rb') as f:
-    W = pickle.load(f)
+# with open('./data/W.pickle', 'rb') as f:
+#     W = pickle.load(f)
 
 # convert data set to bin
 X_train_bin = convert_to_bin(X_train)
@@ -40,12 +40,16 @@ p = init_p()
 
 # total_iter = trange(0, config.constant.MAX_Iter, dynamic_ncols=True)
 
+last_diff = 999999
+tolerate_alpha = 0.5
+tolerate_beta = 0.1
+
 for now_iter in range(config.constant.MAX_Iter):
     # break, if diff is enough small
 
     # TODO: remove pickle W
     # Get W
-    # W = get_w_posterior(X_train_bin, Lamb, p)
+    W = get_w_posterior(X_train_bin, Lamb, p)
 
     # Get Lamb
     # total_iter.set_description("get W")
@@ -61,14 +65,30 @@ for now_iter in range(config.constant.MAX_Iter):
     Lamb = new_Lamb
     p = new_p
 
+    if diff < tolerate_alpha and abs(last_diff - diff) > tolerate_beta:
+        print(f"__converge__ early stop! Diff:{diff}")
+        break
+    else:
+        last_diff = diff
+
 # Final W
-# W = get_w_posterior(X_train_bin, Lamb, p)
+W = get_w_posterior(X_train_bin, Lamb, p)
 
 # TODO: Count correct
 # TODO: matching make convert vector
 predict_group, converter = create_group_label_convert(W, y_train)
 
-# TODO: confusion matrix
+# TODO: plot label imagination
+print_label_image(p, converter)
 
+print()
+
+# TODO: confusion matrix
+count_confusion(y_train, predict_group, converter)
+
+print(f"Total iteration to converge {now_iter+1}")
+
+# TODO: error rate
+error_rate(y_train, predict_group, converter)
 
 print("123")
