@@ -3,7 +3,7 @@ import numpy as np
 
 def print_image(p):
     # p:(10, 784)
-    threshold = 0.5
+    threshold = 0.4
     num_group = p.shape[0]
     num_row_pixels = int(np.sqrt(p.shape[1]))
     num_col_pixels = int(np.sqrt(p.shape[1]))
@@ -20,7 +20,7 @@ def print_image(p):
 def print_label_image(p, converter):
     # p:(10, 784)
     # converter <index:label, value:group>
-    threshold = 0.5
+    threshold = 0.4
     num_group = p.shape[0]
     num_row_pixels = int(np.sqrt(p.shape[1]))
     num_col_pixels = int(np.sqrt(p.shape[1]))

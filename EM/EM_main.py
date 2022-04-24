@@ -41,8 +41,8 @@ p = init_p()
 # total_iter = trange(0, config.constant.MAX_Iter, dynamic_ncols=True)
 
 last_diff = 999999
-tolerate_alpha = 0.5
-tolerate_beta = 0.1
+tolerate_alpha = 0.01
+tolerate_beta = 0.01
 
 for now_iter in range(config.constant.MAX_Iter):
     # break, if diff is enough small
@@ -65,7 +65,7 @@ for now_iter in range(config.constant.MAX_Iter):
     Lamb = new_Lamb
     p = new_p
 
-    if diff < tolerate_alpha and abs(last_diff - diff) > tolerate_beta:
+    if diff < tolerate_alpha and abs(last_diff - diff) < tolerate_beta:
         print(f"__converge__ early stop! Diff:{diff}")
         break
     else:
