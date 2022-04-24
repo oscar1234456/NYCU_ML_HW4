@@ -1,3 +1,4 @@
+from LR.data_generate.create import create_phi, create_t
 from LR.data_generate.data_generator import data_generator
 
 config1 = {"N": 50, "mx1": 1, "my1": 1, "mx2": 10,
@@ -35,6 +36,10 @@ class_1 = data_generator(using_config["N"], using_config["mx1"],
 class_2 = data_generator(using_config["N"], using_config["mx2"],
                          using_config["my2"], using_config["vx2"],
                          using_config["vy2"])
+
+# w = (3, 1) linear: w1x+w2y+w3 = result => result<0 -> t==0
+phi = create_phi(class_1, class_2)  # phi: (2*N, dim(w)=3)
+t = create_t(using_config["N"])
 
 
 
