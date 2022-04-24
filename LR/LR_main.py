@@ -1,5 +1,6 @@
 from LR.data_generate.create import create_phi, create_t
 from LR.data_generate.data_generator import data_generator
+from LR.process.gradient_descent import gradient_descent
 
 config1 = {"N": 50, "mx1": 1, "my1": 1, "mx2": 10,
            "my2": 10, "vx1": 2, "vy1": 2, "vx2": 2, "vy2": 2}
@@ -41,6 +42,11 @@ class_2 = data_generator(using_config["N"], using_config["mx2"],
 phi = create_phi(class_1, class_2)  # phi: (2*N, dim(w)=3)
 t = create_t(using_config["N"])
 
+# gradient
+w_gradient = gradient_descent(phi, t)
+print(w_gradient)
+
+# Newton-Raphson
 
 
 print("123")
